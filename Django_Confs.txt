@@ -1,0 +1,46 @@
+--- jahate taghyeere user & pass adminha dar Django ---
+
+shell :
+docker compose run backend sh -c "python manage.py shell"
+dastorat :
+from django.contrib.auth.models import User
+
+# پیدا کردن کاربر فعلی
+user = User.objects.get(username='normal_admin')
+
+# تغییر نام کاربری
+user.username = 'your_new_username'  # <--- نام کاربری جدید خود را اینجا بنویسید
+
+# تغییر پسورد (به روش امن)
+user.set_password('your_new_strong_password') # <--- پسورد جدید خود را اینجا بنویسید
+
+# ذخیره تغییرات در دیتابیس
+user.save()
+
+print(f"User '{user.username}' has been updated successfully!")
+exit()
+
+
+
+
+
+--- jahate ejraee project ---
+
+baraye shoro :
+docker compose up -d
+
+vaghti settings.py ro taghyeer midim :
+docker compose restart backend
+
+vaghti requirements.txt ya Dockerfile ro taghyeer midim :
+docker compose up --build -d
+
+
+پشتیبان گیری از پایگاه داده :
+# این دستور را روی سرور خود اجرا کنید
+docker compose exec -T db pg_dump -U postgres refahi03_db > backup_$(date +%Y-%m-%d).sql
+# ابتدا فایل پشتیبان را به داخل کانتینر کپی کنید
+docker compose cp backup_2025-10-27.sql db:/tmp/backup.sql
+
+# سپس دیتابیس را بازگردانی کنید
+docker compose exec -T db psql -U postgres -d refahi03_db -f /tmp/backup.sql

@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{{ title }} | پنل مدیریت طرف‌های قرارداد{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">پنل مدیریت</a></h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block userlinks %}
+    {# این شرط کلیدی است: اگر کاربر سوپر یوزر بود، لینک‌ها را نمایش بده #}
+    {% if user.is_superuser %}
+        {% if site_url %}
+            <a href="{{ site_url }}" class="sitelink">{% trans 'View site' %}</a> /
+        {% endif %}
+        {% if user.has_usable_password %}
+            <a href="{% url 'admin:password_change' %}">{% trans 'Change password' %}</a> /
+        {% endif %}
+    {% endif %}
+    
+    {# لینک خروج برای همه کاربران نمایش داده می‌شود #}
+    {# از نام استاندارد URL برای خروج استفاده می‌کنیم #}
+    <a href="{% url 'admin:logout' %}">{% trans 'Log out' %}</a>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/admin_custom.css' %}">
+{% endblock %}

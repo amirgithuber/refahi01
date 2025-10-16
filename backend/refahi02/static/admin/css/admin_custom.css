@@ -1,0 +1,104 @@
+/* فونت فارسی */
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+
+/* استایل‌های کلی */
+body {
+    font-family: 'Vazirmatn', sans-serif !important;
+    direction: rtl;
+}
+
+/* هدر و لوگو */
+#header {
+    background: #2c3e50;
+    color: white;
+    border-bottom: none;
+}
+
+#header a:link, #header a:visited {
+    color: white;
+}
+
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: white;
+    font-weight: 700;
+}
+
+/* منوی کناری */
+.nav-sidebar {
+    background: #34495e;
+}
+
+.nav-sidebar .nav-item a {
+    color: #ecf0f1;
+    border-right: 4px solid transparent;
+}
+
+.nav-sidebar .nav-item a:hover {
+    background: #2c3e50;
+    border-right-color: #3498db;
+}
+
+/* فرم‌ها و دکمه‌ها */
+.button, input[type=submit], input[type=button], .submit-row input {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 500;
+    padding: 8px 16px;
+}
+
+.button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background: #2980b9;
+}
+
+/* جداول */
+#result_list thead th {
+    background: #ecf0f1;
+    border-bottom: 2px solid #bdc3c7;
+    font-weight: 500;
+}
+
+#result_list tbody td, #result_list tbody th {
+    border-bottom: 1px solid #e1e8ed;
+}
+
+/* استایل‌های صفحه ورود */
+.login {
+    background: #f8f9fa;
+}
+
+.login #header {
+    display: none; /* هدر اصلی را در صفحه ورود مخفی می‌کنیم */
+}
+
+.login .form-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+.login .form-container h1 {
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 25px;
+}
+
+.login .form-row label {
+    font-weight: 500;
+    text-align: right;
+}
+
+.login .submit-row {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* نمایش بهتر فیلدهای خالی */
+.empty-form-display {
+    color: #95a5a6;
+    font-style: italic;
+}

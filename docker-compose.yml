@@ -1,0 +1,77 @@
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    # این healthcheck را به سرویس db اضافه کنید
+    healthcheck:
+      test: ["CMD-SHELL", "psql -U postgres -c 'SELECT 1' -d refahi03_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  backend:
+    build: ./backend
+    entrypoint: ["sh", "/app/entrypoint.sh"]
+    # command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    command: gunicorn refahi02.wsgi:application --bind 0.0.0.0:8000
+    # volumes:
+    #   - ./backend:/app
+    volumes:
+      - static_volume:/app/staticfiles
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DATABASE_NAME=${POSTGRES_DB}
+      - DATABASE_USER=${POSTGRES_USER}
+      - DATABASE_PASSWORD=${POSTGRES_PASSWORD}
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - SECRET_KEY=${SECRET_KEY}
+    depends_on:
+      db:
+        condition: service_healthy 
+    healthcheck:
+      test: ["CMD", "python", "manage.py", "check"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  frontend:
+    build: ./frontend
+    env_file:
+      - ./frontend/.env.local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_API_URL=http://10.20.30.136:8000/api
+    depends_on:
+      backend:
+        condition: service_healthy  # <--- این کلیدی است
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80" # فقط پورت 80 را به بیرون expose می‌کنیم
+    volumes:
+      - static_volume:/app/staticfiles
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  postgres_data:
+  static_volume:
