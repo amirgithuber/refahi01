@@ -14,5 +14,5 @@
 
 1. کلون کردن پروژه:
    ```bash
-   git clone https://github.com/amirgithuber/refahi-project.git
-   cd refahi-project
+   git clone https://github.com/amirgithuber/refahi01.git
+   cd refahi01
