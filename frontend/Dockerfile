@@ -18,7 +18,7 @@ COPY . .
 # این دستور کلیدی است: پروژه را بیلد می‌کند
 RUN npm run build
 
-RUN ls -la /app
+# RUN ls -la /app
 
 # مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
 FROM base AS runner
