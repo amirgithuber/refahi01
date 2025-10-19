@@ -19,8 +19,6 @@ COPY . .
 # این دستور کلیدی است: پروژه را بیلد می‌کند
 RUN npm run build
 
-# RUN ls -la /app
-
 # مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
 FROM base AS runner
 WORKDIR /app
@@ -35,6 +33,8 @@ COPY --from=builder /app/public ./public
 # این کپی کردن فایل‌های بیلد شده بسیار مهم است
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+RUN unset PORT
 
 USER nextjs
 
