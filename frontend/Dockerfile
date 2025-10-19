@@ -1,39 +1,14 @@
-# Port is set dynamically by Render's PORT environment variable
-# مرحله اول: نصب وابستگی‌ها و بیلد پروژه
-FROM node:18-alpine AS base
+FROM node:18-alpine
 
-# نصب وابستگی‌ها
-FROM base AS deps
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci
-
-# مرحله دوم: بیلد کردن اپلیکیشن
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+RUN npm install
 COPY . .
 
-# این دستور کلیدی است: پروژه را بیلد می‌کند
 RUN npm run build
 
-# مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
-# مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
-FROM base AS runner
-WORKDIR /app
+ENV PORT 3000
+EXPOSE 3000
 
-ENV NODE_ENV production
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
-# این دستور سرور تولید را اجرا می‌کند و پورت را به زور روی 3000 تنظیم می‌کند
-CMD ["sh", "-c", "PORT=3000 node server.js"]
+CMD ["npm", "start"]
