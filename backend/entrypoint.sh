@@ -1,24 +1,13 @@
 #!/bin/sh
+
+# اگر هر دستوری با خطا مواجه شد، اسکریپت متوقف می‌شود
 set -e
 
-echo "=== Starting Entrypoint Script ==="
+# این دستور مایگریشن‌ها را اجرا می‌کند
+echo "Running database migrations..."
+python manage.py migrate
 
-echo "Step 1: Applying database migrations..."
-if python manage.py migrate --noinput; then
-    echo "SUCCESS: Migrations applied."
-else
-    echo "ERROR: Migrations failed."
-    exit 1
-fi
-
-echo "Step 2: Collecting static files..."
-if python manage.py collectstatic --noinput; then
-    echo "SUCCESS: Static files collected."
-else
-    echo "ERROR: Collecting static files failed."
-    exit 1
-fi
-
-echo "Step 3: Starting Django server..."
-echo "=== Entrypoint Script Finished Successfully ==="
+# این دستور تمام آرگومان‌های ارسال شده به اسکریپت را اجرا می‌کند
+# (مثلاً دستور اصلی برای اجرای سرور)
+echo "Starting server..."
 exec "$@"
