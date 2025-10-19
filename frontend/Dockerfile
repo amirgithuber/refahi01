@@ -39,7 +39,7 @@ USER nextjs
 
 EXPOSE 3000
 
-ENV PORT 3000
+# ENV PORT 3000
 
 # این دستور سرور تولید را اجرا می‌کند
 CMD ["node", "server.js"]
