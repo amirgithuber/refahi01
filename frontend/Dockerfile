@@ -1,3 +1,4 @@
+# Port is set dynamically by Render's PORT environment variable
 # مرحله اول: نصب وابستگی‌ها و بیلد پروژه
 FROM node:18-alpine AS base
 
@@ -39,7 +40,6 @@ USER nextjs
 
 EXPOSE 3000
 
-# ENV PORT 3000
 
 # این دستور سرور تولید را اجرا می‌کند
 CMD ["node", "server.js"]
