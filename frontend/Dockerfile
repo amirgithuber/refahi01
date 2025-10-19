@@ -38,8 +38,7 @@ RUN unset PORT
 
 USER nextjs
 
-EXPOSE 10000
 
 
 # این دستور سرور تولید را اجرا می‌کند
-CMD ["node", "server.js"]
+CMD ["sh", "-c", "PORT=$PORT node server.js"]
