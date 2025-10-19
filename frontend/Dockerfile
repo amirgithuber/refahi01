@@ -20,6 +20,7 @@ COPY . .
 RUN npm run build
 
 # مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
+# مرحله سوم: آماده‌سازی ایمیج نهایی برای اجرا
 FROM base AS runner
 WORKDIR /app
 
@@ -29,16 +30,10 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
-
-# این کپی کردن فایل‌های بیلد شده بسیار مهم است
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-RUN unset PORT
-
 USER nextjs
 
-
-
-# این دستور سرور تولید را اجرا می‌کند
-CMD ["sh", "-c", "PORT=$PORT node server.js"]
+# این دستور سرور تولید را اجرا می‌کند و پورت را به زور روی 3000 تنظیم می‌کند
+CMD ["sh", "-c", "PORT=3000 node server.js"]
