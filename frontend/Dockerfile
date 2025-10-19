@@ -38,7 +38,7 @@ RUN unset PORT
 
 USER nextjs
 
-EXPOSE 3000
+EXPOSE 10000
 
 
 # این دستور سرور تولید را اجرا می‌کند
